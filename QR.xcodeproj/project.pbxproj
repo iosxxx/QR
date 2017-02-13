@@ -17,6 +17,7 @@
 		89A593A71D153696000DD9F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89A593A61D153696000DD9F5 /* Assets.xcassets */; };
 		89A593AA1D153696000DD9F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89A593A81D153696000DD9F5 /* LaunchScreen.storyboard */; };
 		89A593B21D153A23000DD9F5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A593B11D153A23000DD9F5 /* AVFoundation.framework */; };
+		B6D506B61E519F2F002188FF /* CSYShowAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D506B51E519F2F002188FF /* CSYShowAlert.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		89A593A91D153696000DD9F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89A593AB1D153696000DD9F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89A593B11D153A23000DD9F5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B6D506B41E519F2F002188FF /* CSYShowAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSYShowAlert.h; sourceTree = "<group>"; };
+		B6D506B51E519F2F002188FF /* CSYShowAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSYShowAlert.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				89A593A11D153696000DD9F5 /* ViewController.m */,
 				890EC3061D1B901800DC3258 /* CSYScanViewController.h */,
 				890EC3071D1B901800DC3258 /* CSYScanViewController.m */,
+				B6D506B41E519F2F002188FF /* CSYShowAlert.h */,
+				B6D506B51E519F2F002188FF /* CSYShowAlert.m */,
 				890EC3011D1B880100DC3258 /* chart.png */,
 				8942DA901D1A2908004DE571 /* View */,
 				89A593A31D153696000DD9F5 /* Main.storyboard */,
@@ -131,11 +136,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CSY;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "广东骆驼服饰有限公司";
 				TargetAttributes = {
 					89A593961D153696000DD9F5 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = GQDW725VBY;
 					};
 				};
 			};
@@ -180,6 +186,7 @@
 				89A5939F1D153696000DD9F5 /* AppDelegate.m in Sources */,
 				8942DA931D1A2919004DE571 /* QRScanView.m in Sources */,
 				890EC3081D1B901800DC3258 /* CSYScanViewController.m in Sources */,
+				B6D506B61E519F2F002188FF /* CSYShowAlert.m in Sources */,
 				89A5939C1D153696000DD9F5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,8 +227,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -243,7 +252,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -265,8 +274,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -282,7 +293,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -294,6 +305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GQDW725VBY;
 				INFOPLIST_FILE = QR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camel.QR;
@@ -305,6 +317,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GQDW725VBY;
 				INFOPLIST_FILE = QR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camel.QR;

@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "CSYShowAlert.h"
 
 #define wwidth [UIScreen mainScreen].bounds.size.width
 #define hheight [UIScreen mainScreen].bounds.size.height
@@ -84,20 +84,14 @@
     NSLog(@"%@",features);
     CIQRCodeFeature *feature = [features firstObject];
     if (feature) {
-        [self showAlertWithMessage:feature.messageString];
-    } else {
-        NSLog(@"没有二维码");
-    }
+        
+        //  加载提示栏
+        [CSYShowAlert showAlert:feature.messageString CurrentController:self completion:nil];
+        
+    } 
 }
 
 
--(void)showAlertWithMessage:(NSString * )message
-{
-    
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"message" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
-    alert.delegate = self;
-    [alert show];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

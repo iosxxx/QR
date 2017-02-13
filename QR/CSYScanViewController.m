@@ -7,6 +7,7 @@
 //
 
 #import "CSYScanViewController.h"
+#import "CSYShowAlert.h"
 
 @interface CSYScanViewController ()<UIPickerViewDelegate,UIImagePickerControllerDelegate>
 
@@ -19,51 +20,48 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-     AVAuthorizationStatus authorizationStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-     // 判断是否得到权限
-     
-     switch (authorizationStatus) {
-     case AVAuthorizationStatusNotDetermined:
-     {
-     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-     
-     if (granted) {
-     
-     NSLog(@"ok");
-     [self setpCapture];
-     }
-     else
-     {
-     NSLog(@"访问权限");
-     }
-     }];
-     }
-     break;
-     case AVAuthorizationStatusAuthorized:
-     {
-     [self setpCapture];
-     }
-     break;
-     case AVAuthorizationStatusRestricted:
-     case AVAuthorizationStatusDenied:
-     {
-     NSLog(@"访问权限");
-     }
-     break;
-     default:
-     break;
-     }
-     
-
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AVAuthorizationStatus authorizationStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        // 判断是否得到权限
+        
+        switch (authorizationStatus) {
+            case AVAuthorizationStatusNotDetermined:
+            {
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    
+                    if (granted) {
+                        
+                        NSLog(@"ok");
+                        [self setpCapture];
+                    }
+                    else
+                    {
+                        NSLog(@"访问权限");
+                    }
+                }];
+            }
+                break;
+            case AVAuthorizationStatusAuthorized:
+            {
+                [self setpCapture];
+            }
+                break;
+            case AVAuthorizationStatusRestricted:
+            case AVAuthorizationStatusDenied:
+            {
+                NSLog(@"访问权限");
+            }
+                break;
+            default:
+                break;
+        }
+ 
+    });
 }
-
-
-
-
 
 -(void)setpCapture
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         //        扫码的代码
         AVCaptureSession * session = [AVCaptureSession new];
@@ -96,40 +94,38 @@
             }];
             
             
-            QRScanView * QRScan = [[QRScanView alloc]initWithScanRect:CGRectMake(100, 100, 200, 200)];
-            [self.view addSubview:QRScan];
-            [session startRunning];
-            
+            // 回到主线程
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                QRScanView * QRScan = [[QRScanView alloc]initWithScanRect:CGRectMake(100, 100, 200, 200)];
+                [self.view addSubview:QRScan];
+                [session startRunning];
+            });
+           
         }
         else
         {
             NSLog(@"%@",error);
         }
+
     });
+    
 }
 
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-    AVMetadataMachineReadableCodeObject * metadataObj = metadataObjects.firstObject;
+    __block AVMetadataMachineReadableCodeObject * metadataObj = metadataObjects.firstObject;
     if ([metadataObj.type isEqualToString:AVMetadataObjectTypeQRCode] && !_isQRCodeCaptured) {
-        _isQRCodeCaptured = YES;
-        [self showAlertWithMessage:metadataObj.stringValue];
+        
+        [CSYShowAlert showAlert:metadataObj.stringValue CurrentController:self completion:^{
+           
+            _isQRCodeCaptured = YES;
+        }];
         
     }
     
 }
--(void)showAlertWithMessage:(NSString * )message
-{
-    
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"message" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
-    alert.delegate = self;
-    [alert show];
-}
 
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    _isQRCodeCaptured = NO;
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -153,12 +149,11 @@
     NSArray *features = [detector featuresInImage:image];
     CIQRCodeFeature *feature = [features firstObject];
     if (feature) {
-       [self showAlertWithMessage:feature.messageString];
-       [picker dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        NSLog(@"没有二维码");
-        [picker dismissViewControllerAnimated:YES completion:NULL];
+       
+        [CSYShowAlert showAlert:feature.messageString CurrentController:self completion:nil];
     }
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 /*
 #pragma mark - Navigation
