@@ -25,15 +25,53 @@
             block();
         }
     
-        //  判断是否是个网址
-        NSRange range = [message rangeOfString:@"http://weixin."];
+        //  判断否是微信二维码
+        //NSRange range = ;
         
-        if (range.location == NSNotFound)   return ;
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"weixin://"] options:@{} completionHandler:nil];
+        if ([message rangeOfString:@"http://weixin."].location != NSNotFound){
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"weixin://"] options:@{} completionHandler:nil];
+        }
         
+        
+        // 判断是否是网址
+        BOOL isUrl = false;
+        
+        NSString * regulaStr = @"\\b(https|http)?://[a-zA-Z0-9\\-.]+(?::(\\d+))?(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?";
+        
+        NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:regulaStr options:NSRegularExpressionCaseInsensitive error:nil];
+        
+        NSArray * arrofAllMatches = [regex matchesInString:message options:0 range:NSMakeRange(0,message.length)];
+        
+        for (NSTextCheckingResult * match in arrofAllMatches) {
+            NSLog(@"xxxxxxxx");
+            NSString * substringForMatch = [message substringWithRange:match.range];
+            isUrl = YES;
+        }
+        
+        if (isUrl) {
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:message] options:@{} completionHandler:nil];
+        }
+        
+        /*
+        //  判断是否是网址
+        if ([message rangeOfString:@""].location) {
+            <#statements#>
+        }
+        */
     }]];
   
     [controller presentViewController:alert animated:YES completion:nil];
+}
+
+
+/** 正则判断网址 */
+-(BOOL)urlValidation:(NSString *)string {
+
+    
+    
+    return NO;
 }
 
 @end
